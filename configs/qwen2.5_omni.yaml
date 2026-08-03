@@ -1,0 +1,36 @@
+backbone: Qwen/Qwen2.5-Omni-7B
+
+grounding:
+  data: data/vggsound_train.parquet
+  out: checkpoints/qwen_grounding/adapter
+  lora_r: 32
+  lora_alpha: 16
+  target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+  lr: 5.0e-5
+  epochs: 1
+  accum: 8
+  seed: 0
+  ans_weight: 10.0
+
+conf_lora:
+  data: data/vggsound_conftarget.parquet
+  init: checkpoints/qwen_grounding/adapter
+  out: checkpoints/qwen_conf/adapter
+  lr: 5.0e-5
+  epochs: 1
+  accum: 8
+  seed: 0
+
+eval:
+  protocol: decoupled
+  answer_from: grounding
+  confidence_from: conf_lora
+  frames: 8
+  avhbench: data/avhbench_eval.parquet
+  cmm: data/cmm_eval.parquet
+
+expected_avhbench:
+  acc: 0.851
+  auroc: 0.738
+  ece: 0.058
+  n: 5302

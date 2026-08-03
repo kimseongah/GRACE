@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.DS_Store
+data/
+checkpoints/
+results/
+*.parquet
+*.jsonl
+*.safetensors
+*.log
+.venv/
+venv/
